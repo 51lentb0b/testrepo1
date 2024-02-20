@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "Checking for changes in 'packer/'..."
           git fetch --depth=1 origin main
-          git diff origin/main...HEAD -- ./packer
+          git diff origin main -- ./packer
           if ! git diff --quiet origin/main -- ./packer; then
             echo "folder_changed=true" >> $GITHUB_OUTPUT
           else
