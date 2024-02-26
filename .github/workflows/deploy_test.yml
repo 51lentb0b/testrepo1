@@ -42,3 +42,14 @@ jobs:
        uses: actions/checkout@v3
        with:
          ref: main
+
+  subsequent_pkrbuild_test:
+   needs: check_folder_changes
+   if: needs.check_folder_changes.outputs.folder_changed == 'true'
+   name: subsequent_pkrbuild_test
+   runs-on: ubuntu-latest
+   steps:
+     - name: Clone repo
+       uses: actions/checkout@v3
+       with:
+         ref: main
