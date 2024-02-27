@@ -13,28 +13,20 @@ env:
   IN_AUTOMATION: 1
   PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 jobs:
-  check_folder_changes:
+  check_branch:
     runs-on: ubuntu-latest
-    name: check_if_packer_code_chaged
-    outputs:
-      folder_changed: ${{ steps.filter.outputs.folder_changed }}
+    name: check_if_branch_is_main
     steps:
       - name: test
         uses: actions/checkout@v3
       - id: filter
         run: |
-          echo "Checking for changes in 'packer/'..."
-          git fetch --depth=1 origin main
-          git diff origin/main -- ./packer
-          if ! git diff --quiet origin/main -- ./packer; then
-            echo "folder_changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "folder_changed=false" >> $GITHUB_OUTPUT
+          if [[ "${{ github.ref }}" != "refs/heads/master" ]]; then
+            echo "Branch is not master, exiting."
+            exit 0
           fi
 
   pkrbuild_test:
-   needs: check_folder_changes
-   if: needs.check_folder_changes.outputs.folder_changed == 'true'
    name: pkrbuild_test
    runs-on: ubuntu-latest
    steps:
