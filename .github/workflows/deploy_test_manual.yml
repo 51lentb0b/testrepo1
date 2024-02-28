@@ -21,10 +21,13 @@ jobs:
         uses: actions/checkout@v3
       - id: filter
         run: |
+          echo "${{ github.ref }}"
+          echo ${{ github.ref }}
           if [[ "${{ github.ref }}" != "refs/heads/master" ]]; then
             echo "Branch is not master, exiting."
             exit 0
           fi
+        
 
   pkrbuild_test:
    name: pkrbuild_test
