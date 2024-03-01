@@ -1,9 +1,6 @@
-name: check_folder_changes
+name: check_folder_changes_manual
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 permissions:
   id-token: write
   contents: read
