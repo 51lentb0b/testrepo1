@@ -45,6 +45,8 @@ jobs:
 
   subsequent_pkrbuild_test:
    name: subsequent_pkrbuild_test
+   needs: [check_folder_changes,pkrbuild_test]
+   if: ${{ always() }}
    runs-on: ubuntu-latest
    steps:
      - name: Clone repo
