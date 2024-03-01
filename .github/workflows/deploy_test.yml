@@ -24,13 +24,14 @@ jobs:
       - id: filter
         run: |
           echo "Checking for changes in 'packer/'..."
-          git fetch --depth=1 origin main
+          git fetch --depth=3 origin main
           git diff origin/main -- ./packer
-          if ! git diff --quiet origin/main -- ./packer; then
+          if ! git diff --quiet HEAD^ HEAD -- ./packer; then
             echo "folder_changed=true" >> $GITHUB_OUTPUT
           else
             echo "folder_changed=false" >> $GITHUB_OUTPUT
           fi
+          echo "$GITHUB_OUTPUT"
 
   pkrbuild_test:
    needs: check_folder_changes
